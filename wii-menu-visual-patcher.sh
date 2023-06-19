@@ -99,7 +99,40 @@ enable_dvd () {
     printf "0000147C: 07" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
     printf "00001658: 05" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
     printf "00001C88: 05" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
-    echo -e "Patch applied! You can now repack diskBann.ash."
+    echo -e "Add additional patch to reposition discs to be more even?"
+    read -p "$* [y/n]: " yn
+    case $yn in
+        [Yy]*)
+            echo -e "\nAdding addtional patches...\n"
+            printf "00000C13: FF" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001121: 1F" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001174: 42" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001175: A0" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "000011FC: 41" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "000011FD: 80" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001250: 42" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001251: 70" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "000012D9: 11" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "0000132C: 42" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "0000132D: 70" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001498: C2" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001499: C8" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001518: 42" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001519: 70" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001599: 3E" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001674: C2" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001675: C8" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001790: 42" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "00001791: 70" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "000018AD: 3E" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "000019D0: 42" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+            printf "000019D1: 20" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
+        ;;
+        [Nn]*)
+            echo "Extra patches won't be applied.\n"
+        ;;
+    esac
+    echo -e "DVD icon enabled! You can now repack diskBann.ash."
 }
 
 pack_diskbann () {
