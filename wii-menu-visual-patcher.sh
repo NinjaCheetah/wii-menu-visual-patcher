@@ -61,6 +61,12 @@ if [ ! -f "ashcompress.exe" ]; then
 fi
 
 echo -e "\nAll tools are accounted for. Let's extract!\n"
+
+if [ ! -f $1 ]; then
+    echo -e "Couldn't find $1. Please make sure you've entered the path to your System Menu WAD correctly."
+    exit
+fi
+
 if [ -d "wad" ]; then
     echo "WAD seems to already be unpacked! Skipping... (Remove wad/ to get a clean copy.)"
 else
