@@ -1,0 +1,10 @@
+*.wad
+*.app
+*.exe
+*.dll
+README.txt
+LICENSE.txt
+0000000*/
+wad/
+diskBann/
+ASH

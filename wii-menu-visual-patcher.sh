@@ -3,13 +3,6 @@
 # Copyright (c) 2023 NinjaCheetah
 
 
-which unrar
-if [ $? != 0 ]
-  then
-    echo "Unrar not found. Please install unrar from your system's package manager."
-    exit
-fi
-
 which wine
 if [ $? != 0 ]
   then
@@ -36,16 +29,17 @@ if [ ! -f "Sharpii.exe" ]; then
     rm Sharpii.zip
 fi
 
-if [ ! -f "ASH.exe" ]; then
-    curl -L https://wiibrew.org/w/images/1/14/ASH_v0.1.rar -o ASHextractor.rar
+if [ ! -f "ASH" ]; then
+    curl -L https://github.com/NinjaCheetah/ASH_Extractor/releases/latest/download/ASH-Linux.tar -o ASH-Linux.tar
     if [ $? != 0 ]
     then
-        echo "An error occurred while downloading ASH Extractor. Please check your internet connection."
+        echo "An error occurred while downloading ASH. Please check your internet connection."
         exit
     fi
 
-    unrar e ASHextractor.rar
-    rm ASHextractor.rar
+    tar xvf ASH-Linux.tar
+    chmod +x ASH
+    rm ASH-Linux.tar
 fi
 
 if [ ! -f "ashcompress.exe" ]; then
@@ -81,7 +75,7 @@ unpack_diskbann () {
     wine Sharpii.exe U8 -u 00000001.app 00000001/
     echo -e "\nUnpacking diskBann.ash...\n"
     cp "00000001/layout/common/diskBann.ash" .
-    wine ASH.exe diskBann.ash
+    ./ASH diskBann.ash
     echo -e "\nUnpacking diskBann.ash.arc...\n"
     wine Sharpii.exe U8 -u diskBann.ash.arc diskBann/
     echo -e "\nCleaning up...\n"
