@@ -7,7 +7,7 @@ Shell script to make modifying visual elements of the Wii Menu easier.
 - Repacking the System Menu WAD with any modified .app files to apply patches
 ### Requirements
 - A Linux system
-- `wine` and `unrar` installed (the tools required for extraction/packing are Windows-only)
+- `wine` installed (the tools required for extraction/packing are Windows-only)
 - A WAD for the Wii System Menu version you intend to modify
 ### Usage
 `chmod +x wii-menu-visual-patcher.sh`
@@ -16,7 +16,9 @@ Shell script to make modifying visual elements of the Wii Menu easier.
 
 The script will download and extract all of the tools it requires to work. Just pick the options you want from the menu, and let it do the work!
 
-#### BE CAREFUL WHEN INSTALLING THE MODIFIED WAD!
-The Wii has *very little* brick protection/error handling so any changes may result in crashes or bricks. I am not responsible for any damaged consoles. This script is designed mostly just for fun, so please just stick to using Dolphin.
+> [!WARNING]  
+> **BE CAREFUL WHEN INSTALLING THE MODIFIED WAD!**
+> The Wii has *very little* brick protection/error handling so any changes may result in crashes or bricks. I am not responsible for any damaged consoles. This script is designed mostly just for fun, so please just stick to using Dolphin.
+
 
 Example video of the result: [https://cdn.ncxprogramming.com/file/blog/2023-06-19/wii-dvd-p3-finally-working.mp4](https://cdn.ncxprogramming.com/file/blog/2023-06-19/wii-dvd-p3-finally-working.mp4)
