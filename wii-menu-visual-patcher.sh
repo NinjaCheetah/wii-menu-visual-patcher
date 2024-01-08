@@ -1,6 +1,6 @@
 #!/bin/bash
 # Wii Menu Visual Patcher Script
-# Copyright (c) 2023 NinjaCheetah
+# Copyright (c) 2023-2024 NinjaCheetah
 
 
 which wine
@@ -10,12 +10,24 @@ if [ $? != 0 ]
     exit
 fi
 
+which xxd
+if [ $? != 0 ]
+  then
+    echo "xxd not found. xxd is required to apply patches to files. Please install xxd by installing vim from your system's package manager."
+    exit
+fi
+
+export WINEDEBUG=-all
+
 if [ $# -eq 0 ]
   then
     echo "Wii Menu Visual Patcher by NinjaCheetah"
     echo "Please provide the path to your RVL-WiiSystemmenu-vXXX.wad."
     exit
 fi
+
+mkdir -p tools
+cd tools
 
 if [ ! -f "Sharpii.exe" ]; then
     curl -L https://github.com/mogzol/sharpii/releases/latest/download/Sharpii_v1.7.3.zip -o Sharpii.zip
@@ -54,6 +66,8 @@ if [ ! -f "ashcompress.exe" ]; then
     rm ASHcompress.zip
 fi
 
+cd ../
+
 echo -e "\nAll tools are accounted for. Let's extract!\n"
 
 if [ ! -f $1 ]; then
@@ -64,7 +78,7 @@ fi
 if [ -d "wad" ]; then
     echo "WAD seems to already be unpacked! Skipping... (Remove wad/ to get a clean copy.)"
 else
-    wine Sharpii.exe WAD -u "$1" wad/
+    wine tools/Sharpii.exe WAD -u "$1" wad/
     echo -e "\nWAD extracted!"
 fi
 
@@ -72,12 +86,12 @@ unpack_diskbann () {
     echo -e "Now unpacking diskBann.ash, please wait... \n"
     echo -e "\nUnpacking 00000001.app...\n"
     cp "wad/00000001.app" .
-    wine Sharpii.exe U8 -u 00000001.app 00000001/
+    wine tools/Sharpii.exe U8 -u 00000001.app 00000001/
     echo -e "\nUnpacking diskBann.ash...\n"
     cp "00000001/layout/common/diskBann.ash" .
-    ./ASH diskBann.ash
+    ./tools/ASH diskBann.ash
     echo -e "\nUnpacking diskBann.ash.arc...\n"
-    wine Sharpii.exe U8 -u diskBann.ash.arc diskBann/
+    wine tools/Sharpii.exe U8 -u diskBann.ash.arc diskBann/
     echo -e "\nCleaning up...\n"
     rm 00000001.app diskBann.ash diskBann.ash.arc
     echo -e "Done!\n"
@@ -123,7 +137,7 @@ enable_dvd () {
             printf "000019D1: 20" | xxd -r - "diskBann/arc/blyt/my_DiskCh_a.brlyt"
         ;;
         [Nn]*)
-            echo "Extra patches won't be applied.\n"
+            echo -e "Extra patches won't be applied.\n"
         ;;
     esac
     echo -e "DVD icon enabled! You can now repack diskBann.ash."
@@ -136,7 +150,7 @@ pack_diskbann () {
     fi
     echo -e "Now packing diskBann.ash, please wait... \n"
     echo -e "\nPacking diskBann.arc...\n"
-    wine Sharpii.exe U8 -p "diskBann/" "diskBann.arc"
+    wine tools/Sharpii.exe U8 -p "diskBann/" "diskBann.arc"
     echo -e "\nApplying binary patch to diskBann.arc to fix crashing...\n"
     cp diskBann.arc diskBann-patched.arc
     printf "00000032: 00" | xxd -r - diskBann-patched.arc
@@ -148,7 +162,7 @@ pack_diskbann () {
     printf "000000DA: 00" | xxd -r - diskBann-patched.arc
     printf "000000DB: 01" | xxd -r - diskBann-patched.arc
     echo -e "\nPacking diskBann.arc.ash...\n"
-    wine ashcompress.exe "diskBann-patched.arc"
+    wine tools/ashcompress.exe "diskBann-patched.arc"
     echo -e "\nPlacing diskBann.ash back into 00000001/...\n"
     rm "00000001/layout/common/diskBann.ash"
     mv "diskBann-patched.arc.ash" "00000001/layout/common/diskBann.ash"
@@ -162,11 +176,11 @@ pack_sysmenu () {
         dir=${dir%*/}
         echo -e "\nFound extracted/modified $dir.app, repacking...\n"
         rm "wad/$dir.app"
-        wine Sharpii.exe U8 -p "$dir/" "wad/$dir.app"
+        wine tools/Sharpii.exe U8 -p "$dir/" "wad/$dir.app"
     done
     echo -e "\nAll modified .apps have been repacked!\n"
     echo -e "Repacking SystemMenu WAD..."
-    wine Sharpii.exe WAD -p "wad/" "${1%.*}-MODIFIED.wad"
+    wine tools/Sharpii.exe WAD -p "wad/" "${1%.*}-MODIFIED.wad"
     echo -e "\nYour WAD is ready to go! Please be EXTREMELY CAREFUL if you intend to install this on any real system. I do not recommend doing so under any circumstance. However, I highly recommend installing it into Dolphin and seeing how your changes worked.\n"
 }
 
@@ -200,6 +214,16 @@ do
             rm *.arc
             rm -rd "wad/"
             rm -rd "diskBann/"
+            read -p "Remove tools? [y/n]: " yn
+            case $yn in
+                [Yy]*)
+                    rm -rd "tools/"
+                    echo -e "Tools removed.\n"
+                ;;
+                [Nn]*)
+                    echo -e "Tools not removed.\n"
+                ;;
+            esac
             echo -e "All done!\n"
             exit
             ;;

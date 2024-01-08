@@ -8,6 +8,7 @@ Shell script to make modifying visual elements of the Wii Menu easier.
 ### Requirements
 - A Linux system
 - `wine` installed (the tools required for extraction/packing are Windows-only)
+- `vim` installed (xxd is used for patching files and is included with vim)
 - A WAD for the Wii System Menu version you intend to modify
 ### Usage
 `chmod +x wii-menu-visual-patcher.sh`
