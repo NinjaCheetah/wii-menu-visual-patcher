@@ -37,7 +37,7 @@ This script has not been tested with the following System Menu versions:
 
 or
 
-`chmod +x wii-menu-visual-patcher.sh`
+`chmod +x wii-menu-visual-patcher-kr.sh`
 
 `./wii-menu-visual-patcher-kr.sh /path/to/kr-system-menu.wad`
 
@@ -49,6 +49,6 @@ The script will download and extract all of the tools it requires to work. Just 
 
 > [!WARNING]  
 > **DO NOT MIX VARIANTS OF THE SCRIPT!**
-> While attempting to use the regular script on a Korean or Wii Mini WAD will yeild no issues but no results, using the Korean script on any other console may create a potentially harmful WAD! Please use the appropriate version of the script for the System Menu you are patching. This will be automated in the future.
+> While attempting to use the regular script on a Korean or Wii Mini WAD will yield no issues but no results, using the Korean script on any other console may create a potentially harmful WAD! Please use the appropriate version of the script for the System Menu you are patching. This will be automated in the future.
 
 Example video of the result: [https://cdn.ncxprogramming.com/file/blog/2023-06-19/wii-dvd-p3-finally-working.mp4](https://cdn.ncxprogramming.com/file/blog/2023-06-19/wii-dvd-p3-finally-working.mp4)
