@@ -7,4 +7,10 @@ LICENSE.txt
 0000000*/
 wad/
 diskBann/
+diskBann2/
+tools/
 ASH
+*.ash
+*.arc
+*.brlyt
+*.xmlyt
